@@ -1,7 +1,7 @@
 const getInputValues = require('./helper/get-input-values');
 const input = await getInputValues( 1 );
 
-input.length //?
+// ----- Part A ----- //
 
 let answerA = 0;
 
@@ -14,6 +14,8 @@ input.reduce( ( prev, current ) => {
 }, 9999 )
 
 answerA //? 
+
+// ----- Part B ----- //
 
 let answerB = 0;
 let previousSumOfThree = 99999;

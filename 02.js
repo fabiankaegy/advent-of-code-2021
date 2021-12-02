@@ -1,6 +1,8 @@
 const getInputValues = require('./helper/get-input-values');
 const inputCommands = await getInputValues( 2 );
 
+// ----- Part A ----- //
+
 let depthA = 0;
 let horizontalA = 0;
 
@@ -24,8 +26,7 @@ inputCommands.forEach( command => {
 
 const answerA = depthA * horizontalA; //?
 
-// ---------- //
-
+// ----- Part B ----- //
 
 let aim = 0;
 let depthB = 0;
