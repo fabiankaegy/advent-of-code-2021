@@ -68,7 +68,14 @@ class Board {
     }
 
     get flipped() {
-        return this.matrix.map(row => row.map((number, index ) => this.matrix.map(row => row[index])))[0]
+        let transposed = [];
+        for(let index = 0; index < 5; index++) {
+            transposed[index] = [];
+            for(let counter = 0; counter < 5; counter++) {
+                transposed[index][counter] = this.matrix[counter][index];
+            }
+        }
+        return transposed;
     }
 
     get sum() {
@@ -102,8 +109,6 @@ for ( let round = 0; round < calledNumbers.length && !winningBoard; round++ ) {
             winningBoard = board;
         }
      })
-
-     calledNumber //?
 }
 const lastCalledNumber = actuallCalledNumbers[actuallCalledNumbers.length - 1] // ?
 
