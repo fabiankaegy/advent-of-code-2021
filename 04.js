@@ -1,5 +1,5 @@
 const getInputValues = require('./helper/get-input-values');
-const input = await getInputValues( 4 );
+const input = await getInputValues( '4' );
 
 // ----- Part A ----- //
 const calledNumbers = input[0].split( ',' );
@@ -24,7 +24,7 @@ input.forEach( line => {
 bingoBoards = bingoBoards.filter( board => board.length )
 
 function checkForWinningStreak( inputArray ) {
-    return inputArray.join( '' ) === 'XXXXX';
+    return inputArray.every( value => value === 'X' );
 }
 
 class Board {
@@ -110,6 +110,35 @@ for ( let round = 0; round < calledNumbers.length && !winningBoard; round++ ) {
         }
      })
 }
-const lastCalledNumber = actuallCalledNumbers[actuallCalledNumbers.length - 1] // ?
+const lastCalledNumber = actuallCalledNumbers[actuallCalledNumbers.length - 1];
 
-const answerA = winningBoard.sum * lastCalledNumber; //?
+const answerA = winningBoard.sum * lastCalledNumber;
+
+console.log( answerA );
+
+// ----- Part B ----- //
+
+let tmpBoards = bingoBoards.map( matrix => new Board( matrix ) );
+let lastBoard;
+let lastCalledNumberB;
+for ( let round = 0; round < calledNumbers.length && !lastCalledNumberB; round++ ) {
+    const calledNumber = calledNumbers[round];
+
+    tmpBoards.forEach( board => {
+        board.testValue( calledNumber );
+    })
+
+    tmpBoards = tmpBoards.filter( board => !board.isWinning );
+
+    if ( tmpBoards.length === 1 ) {
+        lastBoard = tmpBoards[0];
+    }
+    
+    if ( tmpBoards.length === 0 ) {
+        lastCalledNumberB = calledNumber;
+    }
+}
+
+const answerB = lastBoard.sum * lastCalledNumberB;
+
+console.log( answerB )
