@@ -67,7 +67,7 @@ function markPoint( x, y ) {
 
 lines.forEach(drawLine)
 
-const answerA = graph.reduce( (result, x) => {
+const answerB = graph.reduce( (result, x) => {
     x.forEach( y => {
         if ( y > 1 ) {
             result++
@@ -76,7 +76,7 @@ const answerA = graph.reduce( (result, x) => {
     return result;
 }, 0 )
 
-answerA
+answerB
 
 console.table(graph)
 
