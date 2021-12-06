@@ -5,7 +5,7 @@ const initialFishAges = input[0].split(',').map(age => parseInt( age, 10 ));
 
 // ----- Part A ----- //
 
-function solvePartA( input ) {
+function solvePartA( input, days ) {
 
     class Lanternfish {
         constructor( daysTillSpawn = 8 ) {
@@ -31,7 +31,7 @@ function solvePartA( input ) {
 
     let fishList = input.map( age => new Lanternfish( age ) );
 
-    for (let day = 0; day < 80; day++) {
+    for (let day = 0; day < days; day++) {
 
         let newFish = [];
         fishList.forEach( fish => {
@@ -50,4 +50,27 @@ function solvePartA( input ) {
 
 }
 
-console.log( solvePartA(initialFishAges) )
+console.log( solvePartA(initialFishAges, 80) )
+
+
+// ----- Part B ----- //
+
+function solvePartB( input, days ) {
+
+    let fishTracker = [0,0,0,0,0,0,0,0,0];
+
+    input.forEach( fish => {
+        fishTracker[fish]++
+    } )
+
+    for (let day = 0; day < days; day++) {
+        const fishThatReplicate = fishTracker.shift();
+        fishTracker.push(fishThatReplicate);
+        fishTracker[6] += fishThatReplicate;
+    }
+
+    return fishTracker.reduce( (score, item) => score + item, 0 )
+
+}
+
+console.log( solvePartB(initialFishAges, 256) );
