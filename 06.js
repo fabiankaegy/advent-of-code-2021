@@ -1,76 +1,33 @@
 const getInputValues = require('./helper/get-input-values');
 const input = await getInputValues( '6' );
 
-const initialFishAges = input[0].split(',').map(age => parseInt( age, 10 ));
+const initialFishAges = input[0].split(',').map(daysTillReplication => parseInt( daysTillReplication, 10 ));
 
-// ----- Part A ----- //
+function calculateAmountOfFish( fish, days ) {
+    let fishTracker = [0,0,0,0,0,0,0,0,0];
 
-function solvePartA( input, days ) {
-
-    class Lanternfish {
-        constructor( daysTillSpawn = 8 ) {
-            this.daysTillSpawn = daysTillSpawn;
-        }
-
-        decreaseTimer() {
-            this.willSpawnToday ? this.reset() : this.daysTillSpawn--;
-        }
-
-        spawn() {
-            return new Lanternfish();
-        }
-
-        reset() {
-            this.daysTillSpawn = 6;
-        }
-
-        get willSpawnToday() {
-            return this.daysTillSpawn === 0;
-        }
-    }
-
-    let fishList = input.map( age => new Lanternfish( age ) );
+    // add initial fish to the tracker
+    fish.forEach( daysTillReplication => {
+        fishTracker[daysTillReplication]++;
+    } );
 
     for (let day = 0; day < days; day++) {
-
-        let newFish = [];
-        fishList.forEach( fish => {
-            if ( fish.willSpawnToday ) {
-            newFish.push(fish.spawn());
-            }
-            fish.decreaseTimer()
-        } )
-        fishList = [...fishList, ...newFish];
-
-        console.log( `There are ${fishList.length} fishes after day ${day}` )
+        // remove the fish that will replicate today from the array
+        const fishThatReplicate = fishTracker.shift(); 
         
+        // add the new fish that spawned today to the end of the array
+        fishTracker.push(fishThatReplicate);
+        
+        // add the fish that replicated today to the fish that will replicate in 6 days (resetting their internal clock)
+        fishTracker[6] += fishThatReplicate; 
     }
 
-    return fishList.length
-
+    return fishTracker.reduce( (score, item) => score + item, 0 );
 }
 
-console.log( solvePartA(initialFishAges, 80) )
+// ----- Part A ----- //
+console.log( calculateAmountOfFish(initialFishAges, 80) )
 
 
 // ----- Part B ----- //
-
-function solvePartB( input, days ) {
-
-    let fishTracker = [0,0,0,0,0,0,0,0,0];
-
-    input.forEach( fish => {
-        fishTracker[fish]++
-    } )
-
-    for (let day = 0; day < days; day++) {
-        const fishThatReplicate = fishTracker.shift();
-        fishTracker.push(fishThatReplicate);
-        fishTracker[6] += fishThatReplicate;
-    }
-
-    return fishTracker.reduce( (score, item) => score + item, 0 )
-
-}
-
-console.log( solvePartB(initialFishAges, 256) );
+console.log( calculateAmountOfFish(initialFishAges, 256) );
